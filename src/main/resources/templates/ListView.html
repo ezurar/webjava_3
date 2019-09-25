@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<title>ShppingCart</title>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+	crossorigin="anonymous">
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+	integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+	crossorigin="anonymous"></script>
+</head>
+<body>
+
+<div class="container">
+<h2>商品一覧情報</h2>
+<table class ="table">
+<tr>
+<th width="50">商品ID</th>
+<th width="150">商品名</th>
+<th width="50">価格</th>
+<th width="200"></th>
+</tr>
+</table>
+<th:block th:each="entry: ${itemList}">
+<from th:action="@{/list}" method="POST" th:object="${listForm}">
+
+<table class="table">
+<tr>
+
+<td width="50" th:text="${entry.value.itemid}"></td>
+<td width="150" th:text="${entry.value.name}"></td>
+<td width="50" th:text="${entry.value.price}"></td>
+<td width="200">
+<input type="hidden" name="itemid"
+th:value="${entry.value.itemid}">
+<input type="number" style="width:50px" name="num">
+<input type="submit" style="width:120px" name="order"
+value="カートに追加"></td>
+
+</tr>
+
+</table>
+</from>
+</th:block>
+</div>
+<div class="container">
+<h2>カート情報</h2>
+<table class="table">
+<tr>
+<th width="50">商品ID</th>
+<th width="150">商品名</th>
+<th width="50">価格</th>
+<th width="50">個数</th>
+</tr>
+<th:block th:each="order: ${orderList}">
+<tr>
+<td th:text="${order.itemid}"></td>
+<td th:text="${itemList.get(order.itemid).name}"></td>
+<td th:text="${itemList.get(order.itemid).price}"></td>
+<td th:text="${order.num}"></td>
+</tr>
+</th:block>
+<tr>
+<td colspan="3">合計</td>
+<td th:text="${totalPrice}"></td>
+</tr>
+</table>
+
+</div>
+
+
+
+</body>
+</html>
